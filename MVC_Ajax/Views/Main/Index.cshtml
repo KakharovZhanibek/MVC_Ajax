@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    @using (Ajax.BeginForm("BookSearch", new AjaxOptions
+    {
+        UpdateTargetId = "results",
+        LoadingElementId = "loading",
+        LoadingElementDuration = 1000
+    }))
+    {
+        <input type="text" name="name" />
+        <input type="submit" value="Поиск" />
+    }
+    <div id="loading" style="display:none; color:indigo; font-weight:bold;">
+        <p>Идет загрузка...</p>
+    </div>
+    <div id="results"></div>
+</div>

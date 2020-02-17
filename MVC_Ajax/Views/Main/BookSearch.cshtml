@@ -1,0 +1,11 @@
+﻿@model IEnumerable<MVC_Ajax.Models.Book>
+
+<div id="searchresults">
+    <h3>Все книги автора : @Model.First().Author</h3>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@item.Name</li>
+        }
+    </ul>
+</div>
