@@ -18,6 +18,11 @@ namespace MVC_Ajax
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "Default2",
+                url: "{controller}/{action}/{name}",
+                defaults: new { controller = "Main", action = "JsonSearch", id = UrlParameter.Optional }
+            );
         }
     }
 }

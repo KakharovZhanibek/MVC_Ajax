@@ -26,6 +26,15 @@ namespace MVC_Ajax.Controllers
         }
         public ActionResult Index()
         {
+            ViewBag.Authors = db.Select(z => z.Author).Distinct().OrderBy(z => z).ToList();
+
+            //ViewBag.Authors = (from b in db
+            //                   select b.Author
+            //                   .Distinct()
+            //                   .OrderBy(z => z)
+            //                   .ToList());
+
+            //ViewBag.Authors = db.Select(z => z.Author).ToList();
             return View();
         }
 
@@ -37,6 +46,21 @@ namespace MVC_Ajax.Controllers
                 return new HttpUnauthorizedResult();
             }
             return PartialView(allbooks);
+        }
+        public ActionResult BestBook()
+        {
+            var bestBook = db.FirstOrDefault();
+            if (bestBook== null)
+            {
+                return new HttpUnauthorizedResult();
+            }
+            return PartialView(bestBook);
+        }
+
+        public JsonResult JsonSearch(string name)
+        {
+            var jsondata = db.Where(a => a.Author.Contains(name)).ToList<Book>();
+            return Json(jsondata, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -2,19 +2,74 @@
     ViewBag.Title = "Index";
 }
 
-<div>
-    @using (Ajax.BeginForm("BookSearch", new AjaxOptions
-    {
-        UpdateTargetId = "results",
-        LoadingElementId = "loading",
-        LoadingElementDuration = 1000
-    }))
+@*
+    <div>
+        @using (Ajax.BeginForm("BookSearch", new AjaxOptions
+        {
+            UpdateTargetId = "results",
+            LoadingElementId = "loading",
+            LoadingElementDuration = 1000
+        }))
+        {
+            <input type="text" name="name" />
+            <input type="submit" value="Поиск" />
+        }
+        <div id="loading" style="display:none; color:indigo; font-weight:bold;">
+            <p>Идет загрузка...</p>
+        </div>
+        <div id="results"></div>
+    </div>*@
+
+<!-- ------>
+@*@using (Ajax.BeginForm("BookSearch", new AjaxOptions { UpdateTargetId = "results" }))
     {
         <input type="text" name="name" />
         <input type="submit" value="Поиск" />
     }
-    <div id="loading" style="display:none; color:indigo; font-weight:bold;">
-        <p>Идет загрузка...</p>
-    </div>
+
     <div id="results"></div>
-</div>
+    <br />
+    @foreach (string s in ViewBag.Authors)
+    {
+        <div style="margin-right:8px;float:left;">
+            @Ajax.ActionLink(s, "BookSearch", new { name = s }, new AjaxOptions { UpdateTargetId = "results" })
+        </div>
+    }*@
+
+<!--  -->
+@*<script type="text/javascript">
+        function OnSuccess(data) {
+            var results = $('#results'); // получаем нужный элемент
+            results.empty(); //очищаем элемент
+            for (var i = 0; i < data.length; i++) {
+                results.append('<li>' + data[i].Name + '</li>'); // добавляем данные в список
+            }
+        }
+    </script>
+
+    @using (Ajax.BeginForm("JsonSearch", new AjaxOptions { OnSuccess = "OnSuccess" }))
+    {
+        <input type="text" name="name" />
+        <input type="submit" value="Поиск" />
+    }
+    <br />
+    <div id="results"></div>*@
+
+<!--  -->
+
+
+<input type="text" name="name" id="search" />
+<input type='button' id="submit" value='Поиск' />
+<div id="results"></div>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        $('#submit').click(function (e)
+        {
+            e.preventDefault();
+            var name = $('#search').val();
+            name = encodeURIComponent(name);
+            $('#results').load("http://localhost:51805/Main/BookSearch?name=" + name);
+        });
+    });
+</script>
